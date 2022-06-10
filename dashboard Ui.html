@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard UI</title>
+  <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --app-bg-dark: #01081f;
+  --app-bg-before: linear-gradient(180deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
+  --app-bg-before-2: linear-gradient(0deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
+  --app-bg-light: #151c32;
+  --app-logo: #3d7eff;
+  --nav-link: #5e6a81;
+  --nav-link-active: #fff;
+  --list-item-hover: #0c1635;
+  --main-color: #fff;
+  --secondary-color: #5e6a81;
+  --color-light: rgba(52, 129, 210, .2);
+  --warning-bg: #ffe5e5;
+  --warning-icon: #ff8181;
+  --applicant-bg: #e3fff1;
+  --applicant-icon: #61e1a1;
+  --close-bg: #fff8e5;
+  --close-icon: #fdbc64;
+  --draft-bg: #fed8b3;
+  --draft-icon: #e9780e;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  background-color: #050e2d;
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+  max-width: 1680px;
+}
+
+.app-left {
+  flex-basis: 240px;
+  background-color: var(--app-bg-dark);
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px 0;
+  transition: all 0.4s ease-in;
+}
+.app-left.show {
+  right: 0;
+  opacity: 1;
+}
+
+.app-main {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--app-bg-light);
+  padding: 24px;
+  background: radial-gradient(circle, #051340 1%, #040f32 100%);
+}
+
+.app-right {
+  flex-basis: 320px;
+  width: 320px;
+  background-color: var(--app-bg-dark);
+  height: 100%;
+  padding: 64px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.4s ease-in;
+}
+.app-right:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 48px;
+  width: 100%;
+  background-image: var(--app-bg-before);
+  z-index: 1;
+}
+.app-right.show {
+  right: 0;
+  opacity: 1;
+}
+.app-right .close-right {
+  display: none;
+}
+
+.app-right-content {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+  color: var(--app-logo);
+  margin-right: 16px;
+  padding: 0 24px;
+}
+.app-logo span {
+  color: #fff;
+  display: inline-block;
+  line-height: 24px;
+  font-size: 16px;
+  margin-left: 16px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+}
+
+button.mbtn {
+  padding-top: 5px;
+  padding-bottom: 2px;
+  border-radius: 8px;
+  color:#fff;
+  background-color:#081038;
+  font-size:1.1em;
+  border:0;
+  cursor:pointer;
+}
+
+.nav-list {
+  margin-top: 40px;
+}
+
+.nav-list-item {
+  margin-bottom: 12px;
+}
+.nav-list-item:not(.active):hover {
+  background-color: var(--list-item-hover);
+}
+.nav-list-item.active .nav-list-link {
+  color: var(--nav-link-active);
+}
+.nav-list-item.active .nav-list-link:after {
+  height: 100%;
+  opacity: 1;
+}
+.nav-list-item.active svg {
+  stroke: var(--app-logo);
+}
+
+.nav-list-link {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 8px 24px;
+  color: var(--nav-link);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.nav-list-link svg {
+  margin-right: 12px;
+}
+.nav-list-link:after {
+  content: "";
+  height: 100%;
+  width: 2px;
+  background-color: var(--app-logo);
+  right: 0;
+  top: 0;
+  position: absolute;
+  border-radius: 2px;
+  opacity: 0;
+  height: 0;
+}
+
+.open-right-area {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: var(--app-bg-dark);
+  border-radius: 4px;
+  height: 40px;
+  width: 40px;
+  padding: 0;
+}
+
+.main-header-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.main-header-line h1 {
+  color: var(--main-color);
+  margin: 0;
+  font-size: 24px;
+  line-height: 32px;
+}
+.main-header-line input {
+  border-radius: 4px;
+  background-color: var(--color-light);
+  border: none;
+  border: 1px solid var(--color-light);
+  color: var(--main-color);
+  height: 32px;
+  padding: 0 8px 0 32px;
+  font-size: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%233481d2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  background-position: center left 10px;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  outline: none;
+  transition: 0.2s;
+  width: 100%;
+  max-width: 400px;
+  margin-left: 16px;
+}
+.main-header-line input:placeholder {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.main-header-line input:hover, .main-header-line input:focus {
+  border: 1px solid #3481d2;
+  box-shadow: 0 0 0 3px var(--color-light);
+}
+
+.row{
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+.chart-container {
+  position: relative;
+  margin: auto;
+  height: 80vh;
+  width: 80vw;
+}
+
+
+.circle-bg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 1.2;
+}
+
+.circle {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  -webkit-animation: progress 1s ease-out forwards;
+          animation: progress 1s ease-out forwards;
+}
+
+.circular-chart.orange .circle {
+  stroke: #ff9f00;
+}
+.circular-chart.orange .circle-bg {
+  stroke: #776547;
+}
+.circular-chart.blue .circle {
+  stroke: #00cfde;
+}
+.circular-chart.blue .circle-bg {
+  stroke: #557b88;
+}
+.circular-chart.pink .circle {
+  stroke: #ff7dcb;
+}
+.circular-chart.pink .circle-bg {
+  stroke: #6f5684;
+}
+
+.percentage {
+  fill: #fff;
+  font-size: 0.5em;
+  text-anchor: middle;
+  font-weight: 400;
+}
+
+@-webkit-keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+.chart-container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 12px;
+}
+.chart-container-header h2 {
+  margin: 0;
+  color: var(--main-color);
+  font-size: 12px;
+  line-height: 16px;
+  opacity: 0.8;
+}
+.chart-container-header span {
+  color: var(--app-logo);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.acquisitions-bar {
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  display: flex;
+}
+
+.bar-progress {
+  height: 4px;
+  display: inline-block;
+}
+.bar-progress.applications {
+  background-color: #ff7dcb;
+}
+.bar-progress.shortlisted {
+  background-color: #00cfde;
+}
+.bar-progress.on-hold {
+  background-color: #fdac42;
+}
+.bar-progress.rejected {
+  background-color: #ff5c5c;
+}
+
+.progress-bar-info {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.progress-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.progress-color.applications {
+  background-color: #ff7dcb;
+}
+.progress-color.shortlisted {
+  background-color: #00cfde;
+}
+.progress-color.on-hold {
+  background-color: #fdac42;
+}
+.progress-color.rejected {
+  background-color: #ff5c5c;
+}
+
+.progress-type {
+  color: var(--secondary-color);
+  font-size: 10px;
+  line-height: 16px;
+}
+
+.progress-amount {
+  color: var(--secondary-color);
+  font-size: 10px;
+  line-height: 16px;
+  margin-left: auto;
+}
+
+.applicant-line {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 12px;
+}
+.applicant-line img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.applicant-info span {
+  color: var(--main-color);
+  font-size: 12px;
+  line-height: 16px;
+}
+.applicant-info p {
+  margin: 0;
+  font-size: 10px;
+  line-height: 16px;
+  color: var(--secondary-color);
+}
+
+.profile-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.profile-box:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  height: 48px;
+  width: 100%;
+  background-image: var(--app-bg-before-2);
+  z-index: 1;
+}
+
+.profile-photo-wrapper {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+.profile-photo-wrapper img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.profile-text, .profile-subtext {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--secondary-color);
+  margin: 0 0 8px 0;
+}
+
+.profile-text {
+  font-weight: 600;
+}
+
+.app-right-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  margin-top: 16px;
+}
+.app-right-section-header h2 {
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--secondary-color);
+}
+.app-right-section-header span {
+  display: inline-block;
+  color: var(--secondary-color);
+  position: relative;
+}
+.app-right-section-header span.notification-active:before {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--app-logo);
+  top: -1px;
+  right: -1px;
+  box-shadow: 0 0 0 2px var(--app-bg-dark);
+}
+
+.message-line {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+}
+.message-line:hover {
+  background-color: var(--list-item-hover);
+}
+.message-line img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-right: 8px;
+}
+
+.message-text-wrapper {
+  max-width: calc(100% - 48px);
+}
+
+.message-text {
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--main-color);
+  margin: 0;
+  opacity: 0.8;
+  width: 100%;
+}
+
+.message-subtext {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--secondary-color);
+  margin: 4px 0 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.activity-line {
+  padding: 8px 16px;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.activity-link {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--app-logo);
+  text-decoration: underline;
+}
+
+.activity-text {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--secondary-color);
+  width: 100%;
+  margin: 0;
+}
+.activity-text strong {
+  color: #fff;
+  opacity: 0.4;
+  font-weight: 500;
+}
+
+.activity-icon {
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+.activity-icon.warning {
+  background-color: var(--warning-bg);
+  color: var(--warning-icon);
+}
+.activity-icon.applicant {
+  background-color: var(--applicant-bg);
+  color: var(--applicant-icon);
+}
+.activity-icon.close {
+  background-color: var(--close-bg);
+  color: var(--close-icon);
+}
+.activity-icon.draft {
+  background-color: var(--draft-bg);
+  color: var(--draft-icon);
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.card-body{
+  color: var(--main-color);
+}
+#example1 {
+  border: 2px solid;
+  padding: 10px;
+  box-shadow: 10px 20px #070c47;
+}
+
+
+.menu-button {
+  width: 40px;
+  height: 40px;
+  margin-left: 8px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background-color: var(--app-bg-dark);
+  border: none;
+  color: var(--main-color);
+  border-radius: 4px;
+}
+
+.close-menu {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  color: var(--main-color);
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1350px) {
+  .app-right {
+    flex-basis: 240px;
+    width: 240px;
+  }
+
+  .app-left {
+    flex-basis: 200px;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .app-right {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    z-index: 2;
+    height: 100%;
+    width: 320px;
+    right: -100%;
+    box-shadow: 0 0 10px 5px rgba(1, 8, 31, 0.4);
+  }
+  .app-right .close-right {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    color: var(--main-color);
+    cursor: pointer;
+  }
+
+  .app-main .open-right-area {
+    display: flex;
+    color: var(--main-color);
+  }
+}
+@media screen and (max-width: 1180px) {
+  
+}
+@media screen and (max-width: 920px) {
+  .menu-button {
+    display: flex;
+  }
+
+  .app-left {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    z-index: 2;
+    height: 100%;
+    width: 320px;
+    right: -100%;
+    box-shadow: 0 0 10px 5px rgba(1, 8, 31, 0.4);
+  }
+
+  .close-menu {
+    display: flex;
+  }
+}
+@media screen and (max-width: 650px) {
+  
+}
+@media screen and (max-width: 520px) {
+ 
+  .main-header-line h1 {
+    font-size: 14px;
+  }
+}
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<div class="app-container">
+  <div class="app-left">
+    <button class="close-menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="app-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+        <line x1="18" y1="20" x2="18" y2="10"/>
+        <line x1="12" y1="20" x2="12" y2="4"/>
+        <line x1="6" y1="20" x2="6" y2="14"/>       </svg>
+      <span>Company Name</span>
+    </div>
+    <ul class="nav-list">
+      <li class="nav-list-item active">
+        <a class="nav-list-link" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-columns"><path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18"/></svg>
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-list-item">
+        <a class="nav-list-link" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Products
+        </a>
+      </li>
+      <li class="nav-list-item">
+        <a class="nav-list-link" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/></svg>
+          Campaigns
+        </a>
+      </li>
+      <li class="nav-list-item">
+        <a class="nav-list-link" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-compass"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="10"/><polygon xmlns="http://www.w3.org/2000/svg" points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          Schedules
+        </a>
+      </li>
+      <li class="nav-list-item">
+        <a class="nav-list-link" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect xmlns="http://www.w3.org/2000/svg" x="1" y="4" width="22" height="16" rx="2" ry="2"/><line xmlns="http://www.w3.org/2000/svg" x1="1" y1="10" x2="23" y2="10"/></svg>
+          Payments  
+        </a>
+      </li>
+      <li class="nav-list-item">
+        <a class="nav-list-link" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+          Statement
+        </a>
+      </li>
+      <li class="nav-list-item">
+        <a class="nav-list-link" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="3"/><path xmlns="http://www.w3.org/2000/svg" d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+      </li>      
+    </ul>
+    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+    <div class="app-logo">
+      <span>Earning by items</span>
+    </div>
+    <ul class="nav-list">
+      <li class="nav-list-item">
+        <a class="nav-list-link" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="10"/><line xmlns="http://www.w3.org/2000/svg" x1="2" y1="12" x2="22" y2="12"/><path xmlns="http://www.w3.org/2000/svg" d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          3D Kit 1
+        </a>
+      </li> 
+      <li class="nav-list-item">
+        <a class="nav-list-link" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="10"/><line xmlns="http://www.w3.org/2000/svg" x1="2" y1="12" x2="22" y2="12"/><path xmlns="http://www.w3.org/2000/svg" d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          3D Kit 2
+        </a>
+      </li> 
+      <li class="nav-list-item">
+        <a class="nav-list-link" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle xmlns="http://www.w3.org/2000/svg" cx="12" cy="12" r="10"/><line xmlns="http://www.w3.org/2000/svg" x1="2" y1="12" x2="22" y2="12"/><path xmlns="http://www.w3.org/2000/svg" d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Collab Kit
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="app-main">
+
+    
+    <div class="main-header-line">
+
+      <h1>Applications Dashboard</h1>
+      <div class="action-buttons">
+        <button class="open-right-area">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </button>
+      <button class="menu-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+          <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner"  style="border-radius: 20px;width: 100%;max-height: 200px;">
+              <div class="carousel-item active">
+                <img src="https://i.natgeofe.com/n/2a832501-483e-422f-985c-0e93757b7d84/6.jpg" class="d-block w-100" alt="one">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>First slide label</h5>
+                  <p>Some representative placeholder content for the first slide.</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="https://media.istockphoto.com/photos/mount-hood-oregon-picture-id1268487061?b=1&k=20&m=1268487061&s=170667a&w=0&h=3fHYwaImlqUETcjCnSV7YO2-PzCFvaX6VSQaiGfWqpc=" class="d-block w-100" alt="two">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Second slide label</h5>
+                  <p>Some representative placeholder content for the second slide.</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="https://photographycourse.net/wp-content/uploads/2014/11/Landscape-Photography-steps.jpg" class="d-block w-100" alt="three">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Third slide label</h5>
+                  <p>Some representative placeholder content for the third slide.</p>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="col-sm-4">
+          <div class="w3-card-4" style="border-radius: 25px;" id="example1">
+            <div class="card-body text-center">
+              <h5 class="card-text">Your earning this month</h5>
+              <h1 class="card-text" style="color: cornflowerblue;">479.4</h1>
+              <a class="card-text" style="color: cornflowerblue;">Update your account</a>
+              <button class="mbtn blue">Withdraw all Earnings</button>
+
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="row">
+          
+          <div class="col-sm-6">
+            <div id="line-graph" style="height: 300px;"></div>
+          </div>
+          
+          <div class="col-sm-6">
+            <canvas id="chart" ></canvas>
+          </div>
+          </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="app-right">
+    <button class="close-right">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="profile-box">
+      <div class="profile-photo-wrapper">
+        <img src="https://i.pinimg.com/originals/19/98/0f/19980fbbaba6aa3d4b0c3581ff8c1784.png" alt="profile">
+      </div>
+      <p class="profile-text">Vlad V.</p>
+       <p class="profile-subtext">Admin</p>
+    </div>
+    <div class="app-right-content">
+      <div class="app-right-section">
+      <div class="app-right-section-header">
+        <h2>Messages</h2>
+        <span class="notification-active">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </span>
+      </div>
+      <div class="message-line">
+        <img src="https://t4.ftcdn.net/jpg/02/38/86/89/360_F_238868953_D6dfKSahj9HBXzzNleaPmfQI8gtN1jq5.jpg" alt="profile">
+        <div class="message-text-wrapper">
+          <p class="message-text">coming soon</p>
+          <p class="message-subtext">coming soon</p>
+        </div>
+      </div>
+      <div class="message-line">
+        <img src="https://t4.ftcdn.net/jpg/02/38/86/89/360_F_238868953_D6dfKSahj9HBXzzNleaPmfQI8gtN1jq5.jpg" alt="profile">
+        <div class="message-text-wrapper">
+          <p class="message-text">coming soon</p>
+          <p class="message-subtext">coming soon</p>
+        </div>
+      </div>
+      <div class="message-line">
+        <img src="https://t4.ftcdn.net/jpg/02/38/86/89/360_F_238868953_D6dfKSahj9HBXzzNleaPmfQI8gtN1jq5.jpg" alt="profile">
+        <div class="message-text-wrapper">
+          <p class="message-text">coming soon</p>
+          <p class="message-subtext">coming soon</p>
+        </div>
+      </div>
+    </div>
+    <div class="app-right-section">
+      <div class="app-right-section-header">
+        <h2>Activity</h2>
+        <span class="notification-active">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </span>
+      </div>
+      <div class="activity-line">
+        <span class="activity-icon warning">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </span>
+        <div class="activity-text-wrapper">
+          <p class="activity-text">Your plan is expires in <strong>3 days.</strong></p>
+           <a class="activity-link" href="#">Renew Now</a>
+        </div>
+      </div>
+      <div class="activity-line">
+        <span class="activity-icon applicant">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-plus"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </span>
+        <div class="activity-text-wrapper">
+          <p class="activity-text">Product A is out of stock</p>
+        </div>
+      </div>
+      <div class="activity-line">
+        <span class="activity-icon close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </span>
+        <div class="activity-text-wrapper">
+          <p class="activity-text">Product B is out of stock</p>
+        </div>
+      </div>
+      <div class="activity-line">
+        <span class="activity-icon applicant">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-plus"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </span>
+        <div class="activity-text-wrapper">
+          <p class="activity-text">Please update your statement</p>
+        </div>
+      </div>
+      <div class="activity-line">
+        <span class="activity-icon applicant">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-plus"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </span>
+        <div class="activity-text-wrapper">
+          <p class="activity-text">Check 3D Kit 1</p>
+        </div>
+      </div>
+      <div class="activity-line">
+        <span class="activity-icon close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </span>
+        <div class="activity-text-wrapper">
+          <p class="activity-text">Review last campaign</p>
+        </div>
+      </div>
+      <div class="activity-line">
+        <span class="activity-icon draft">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-minus"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </span>
+        <div class="activity-text-wrapper">
+          <p class="activity-text">You have drafted a new campaign</p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- partial -->
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <script  src="./script.js"></script>
+   <script>
+       var x = new Highcharts.Chart({
+	title: {
+		text: 'Your earnings',
+		style: {
+			color: '#FFFFFF'
+		 }
+		
+	},
+	chart: {
+		backgroundColor: 'transparent',
+		borderColor: '#EBBA95',
+        borderWidth: 2,
+		type: 'line',
+		borderRadius: 20,
+	  renderTo: 'line-graph',
+	  marginBottom: 80
+	},
+	xAxis: {
+	  categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+	  
+	  labels: {
+		rotation: 90
+	  }
+	},
+  
+	series: [{
+	  data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5]        
+	}]
+  });
+
+
+//bar graph
+var data = {
+	labels: ["Jan", "Feb", "Mar", "Apr", "May", ],
+	datasets: [{
+	  label: "Dataset ",
+	  backgroundColor: "rgba(255,99,132,0.2)",
+	  borderColor: "rgba(255,99,132,1)",
+	  borderWidth: 2,
+	  hoverBackgroundColor: "rgba(255,99,132,0.4)",
+	  hoverBorderColor: "rgba(255,99,132,1)",
+	  data: [65, 59, 20, 81, 56],
+	}]
+  };
+  
+  var options = {
+	maintainAspectRatio: false,
+	scales: {
+	  yAxes: [{
+		stacked: true,
+		gridLines: {
+		  display: true,
+		  color: "rgba(255,99,132,0.2)"
+		}
+	  }],
+	  xAxes: [{
+		gridLines: {
+		  display: false
+		}
+	  }]
+	}
+  };
+  
+  Chart.Bar('chart', {
+	options: options,
+	data: data
+  });
+
+
+
+document.querySelector('.open-right-area').addEventListener('click', function () {
+    document.querySelector('.app-right').classList.add('show');
+});
+
+document.querySelector('.close-right').addEventListener('click', function () {
+    document.querySelector('.app-right').classList.remove('show');
+});
+
+document.querySelector('.menu-button').addEventListener('click', function () {
+    document.querySelector('.app-left').classList.add('show');
+});
+
+document.querySelector('.close-menu').addEventListener('click', function () {
+    document.querySelector('.app-left').classList.remove('show');
+});
+   </script>
+</body>
+</html>
